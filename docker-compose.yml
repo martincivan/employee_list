@@ -12,6 +12,8 @@ services:
     networks:
       - symfony
     user: 1000:1001
+    environment:
+      - "APACHE_DOCUMENT_ROOT=/var/www/html/public"
 
 networks:
   symfony:

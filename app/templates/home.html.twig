@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employees{% endblock %}
+
+{% block body %}
+    <h1>Employees</h1>
+    <div class="d-flex flex-column flex-lg-row">
+        {% for employee in employees %}
+            {{ include('_employee_list_item.html.twig', {employee: employee}) }}
+        {% endfor %}
+    </div>
+{% endblock %}

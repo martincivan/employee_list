@@ -1,0 +1,16 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+{% endblock %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <div title="Name">{{ employee.name }}</div>
+        <div title="Date of birth" class="text-body-secondary d-flex">
+            {{ employee.birthDate|date("d.m.Y") }}
+            <span class="material-symbols-outlined">
+                event
+            </span>
+        </div>
+        <a href="{{ path("app_employee_edit", {id: employee.id}) }}" class="btn btn-primary">Edit</a>
+        <a href=""{{ path("app_employee_delete", {id: employee.id}) }}" class="btn btn-danger">Delete</a>
+    </div>
+</div>
