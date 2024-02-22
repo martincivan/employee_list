@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  php:
+    build:
+        context: ./docker/php
+        dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - symfony
+    user: 1000:1001
+
+networks:
+  symfony:
