@@ -27,3 +27,12 @@ Basically the field has to be added to 4 places:
 - to `EmployeeType` form - UI for adding / editing employees
 - to repository impl: `XmlEmployeeRepository`
 - to `_employee_list_item.html.twig` to show the new field in the list of employees
+
+## DB structure example
+```xml
+<?xml version="1.0"?>
+<employees>
+    <employee id="65d8a2d5d9b5c7.56573385" name="Martin Civan" birth_date="882230400" gender="M"/>
+    <employee id="65d8a2f4a76128.34038345" name="Sarah Doe" birth_date="995155200" gender="F"/>
+</employees>
+```
