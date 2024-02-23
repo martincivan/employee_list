@@ -24,7 +24,7 @@ class EmployeeController extends AbstractController
             'employees' => $this->emloyeeRepository->findAll(),
         ]);
     }
-    #[Route('/delete/{id}', methods: ['DELETE'])]
+    #[Route('/delete/{id}', methods: ['POST'])]
     public function delete(string $id): Response
     {
         $result = $this->emloyeeRepository->delete($id);

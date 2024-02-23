@@ -10,7 +10,11 @@
                 event
             </span>
         </div>
-        <a href="{{ path("app_employee_edit", {id: employee.id}) }}" class="btn btn-primary">Edit</a>
-        <a href=""{{ path("app_employee_delete", {id: employee.id}) }}" class="btn btn-danger">Delete</a>
+        <div class="d-flex">
+            <a href="{{ path("app_employee_edit", {id: employee.id}) }}" class="btn btn-primary">Edit</a>
+            <form method="post" action="{{ path("app_employee_delete", {id: employee.id}) }}" onsubmit="return confirm('Are you sure?')">
+                <input type="submit" class="btn btn-danger" value="Delete">
+            </form>
+        </div>
     </div>
 </div>
