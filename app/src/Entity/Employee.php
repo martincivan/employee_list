@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class Employee
 {
 
+    private ?Gender $gender = null;
+
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new NotBlank());
@@ -68,6 +70,16 @@ class Employee
     public function setId(string $id): void
     {
         $this->id = $id;
+    }
+
+    public function setGender(Gender $gender): void
+    {
+        $this->gender = $gender;
+    }
+
+    public function getGender(): ?Gender
+    {
+        return $this->gender;
     }
 
 }

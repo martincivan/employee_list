@@ -2,8 +2,10 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Gender;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,8 +16,8 @@ class EmployeeType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('birthDate', DateType::class)
-            ->add('save', SubmitType::class)
-        ;
+            ->add('birthDate', BirthdayType::class)
+            ->add('gender', EnumType::class, ['class' => Gender::class, 'expanded' => true, 'multiple' => false])
+            ->add('save', SubmitType::class);
     }
 }

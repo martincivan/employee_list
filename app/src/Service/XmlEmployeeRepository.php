@@ -3,13 +3,12 @@
 namespace App\Service;
 
 use App\Entity\Employee;
+use App\Entity\Gender;
 use DateTimeImmutable;
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
-use InvalidArgumentException;
 use RuntimeException;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 class XmlEmployeeRepository implements EmloyeeRepository
 {
@@ -20,6 +19,9 @@ class XmlEmployeeRepository implements EmloyeeRepository
     const EMPLOYEE_ID = 'id';
     const EMPLOYEE_NAME = 'name';
     const EMPLOYEE_BIRTH_DATE = 'birth_date';
+    const EMPLOYEE_GENDER = 'gender';
+    const GENDER_MALE = "M";
+    const GENDER_FEMALE = "F";
 
     public function findAll(): array
     {
@@ -27,11 +29,7 @@ class XmlEmployeeRepository implements EmloyeeRepository
         $document = $this->load();
         $employeeData = $document->getElementsByTagName(self::EMPLOYEE);
         foreach ($employeeData as $employeeItem) {
-            $employee = new Employee();
-            $employee->setId($employeeItem->getAttribute(self::EMPLOYEE_ID));
-            $employee->setName($employeeItem->getAttribute(self::EMPLOYEE_NAME));
-            $employee->setBirthDate(new DateTimeImmutable('@' . $employeeItem->getAttribute(self::EMPLOYEE_BIRTH_DATE)));
-            $employees[] = $employee;
+            $employees[] = $this->getEntity($employeeItem);
         }
 
         return $employees;
@@ -67,15 +65,8 @@ class XmlEmployeeRepository implements EmloyeeRepository
         if ($employeeItem === null) {
             return null;
         }
-        $employee = new Employee();
-        $employee->setId($employeeItem->getAttribute(self::EMPLOYEE_ID));
-        $employee->setName($employeeItem->getAttribute(self::EMPLOYEE_NAME));
-        try {
-            $employee->setBirthDate(new DateTimeImmutable('@' . $employeeItem->getAttribute(self::EMPLOYEE_BIRTH_DATE)));
-        } catch (\Exception $e) {
-        }
 
-        return $employee;
+        return $this->getEntity($employeeItem);
     }
 
     public function create(Employee $employee): string
@@ -93,6 +84,10 @@ class XmlEmployeeRepository implements EmloyeeRepository
         $employeeElement->setAttribute(self::EMPLOYEE_ID, $employee->getId());
         $employeeElement->setAttribute(self::EMPLOYEE_NAME, $employee->getName());
         $employeeElement->setAttribute(self::EMPLOYEE_BIRTH_DATE, $employee->getBirthDate()->getTimestamp());
+        $employeeElement->setAttribute(self::EMPLOYEE_GENDER, match($employee->getGender()) {
+           Gender::MALE => self::GENDER_MALE,
+           Gender::FEMALE => self::GENDER_FEMALE,
+        });
 
         $employees->appendChild($employeeElement);
         $this->save($document);
@@ -112,6 +107,10 @@ class XmlEmployeeRepository implements EmloyeeRepository
         }
         $employeeItem->setAttribute(self::EMPLOYEE_NAME, $employee->getName());
         $employeeItem->setAttribute(self::EMPLOYEE_BIRTH_DATE, $employee->getBirthDate()->getTimestamp());
+        $employeeItem->setAttribute(self::EMPLOYEE_GENDER, match($employee->getGender()) {
+            Gender::MALE => self::GENDER_MALE,
+            Gender::FEMALE => self::GENDER_FEMALE,
+        });
         $this->save($document);
         return true;
     }
@@ -140,5 +139,26 @@ class XmlEmployeeRepository implements EmloyeeRepository
             return null;
         }
         return $employeeItem;
+    }
+
+    /**
+     * @param mixed $employeeItem
+     * @return Employee
+     * @throws \Exception
+     */
+    public function getEntity(DOMNode $employeeItem): Employee
+    {
+        $employee = new Employee();
+        $employee->setId($employeeItem->getAttribute(self::EMPLOYEE_ID));
+        $employee->setName($employeeItem->getAttribute(self::EMPLOYEE_NAME));
+        $employee->setBirthDate(new DateTimeImmutable('@' . $employeeItem->getAttribute(self::EMPLOYEE_BIRTH_DATE)));
+        $gender = $employeeItem->getAttribute(self::EMPLOYEE_GENDER);
+        if ($gender === self::GENDER_MALE) {
+            $employee->setGender(Gender::MALE);
+        }
+        if ($gender === self::GENDER_FEMALE) {
+            $employee->setGender(Gender::FEMALE);
+        }
+        return $employee;
     }
 }
