@@ -21,7 +21,7 @@ run `docker compose exec php php bin/console asset-map:compile` to compile asset
 The app will be available at `http://localhost`
 
 ## Extensibility
-Example of how to add a new field to employee is in `Add employee gender` commit:
+Example of how to add a new field to employee is in `Add employee gender` https://github.com/martincivan/employee_list/commit/d2e19a9e0d5aeb10eca7bde581b6d66437af7651 commit:
 Basically the field has to be added to 4 places:
 - to `Employee` entity
 - to `EmployeeType` form - UI for adding / editing employees
