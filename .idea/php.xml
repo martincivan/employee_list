@@ -49,6 +49,7 @@
       <path value="$PROJECT_DIR$/app/vendor/symfony/form" />
       <path value="$PROJECT_DIR$/app/vendor/symfony/options-resolver" />
       <path value="$PROJECT_DIR$/app/vendor/symfony/validator" />
+      <path value="$PROJECT_DIR$/app/vendor/symfony/stimulus-bundle" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
